@@ -1,0 +1,6 @@
+{
+	"secret": "admin-secret",
+	"username": "admin",
+	"password": "admin",
+	"dbname": "database.db"
+}

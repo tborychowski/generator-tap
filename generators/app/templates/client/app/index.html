@@ -1,0 +1,25 @@
+<Header ref:header></Header>
+
+<script>
+import Header from '../header';
+import Data from '../data';
+
+
+export default {
+	components: { Header },
+	store: () => Data.Store,
+	oncreate () {
+		this.load();
+	},
+
+	methods: {
+		load () {
+			Data.Table1.get().then(items => {
+				this.store.set({ items });
+			});
+		},
+
+	}
+};
+
+</script>

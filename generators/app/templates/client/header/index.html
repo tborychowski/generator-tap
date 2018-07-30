@@ -1,0 +1,19 @@
+<header class="header">
+	<h1>App Name</h1>
+	<button class="btn" on:click="action()">Action</button>
+	<input placeholder="search">
+</header>
+
+
+<script>
+import {Store} from '../data';
+
+export default {
+	store: () => Store,
+	methods: {
+		action () {
+			// this.store.set({ note });
+		}
+	}
+};
+</script>

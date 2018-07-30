@@ -1,0 +1,48 @@
+{
+	"name": "",
+	"version": "1.0.0",
+	"license": "GPL-3.0-or-later",
+	"repository": {
+		"type": "git",
+		"url": ""
+	},
+	"scripts": {
+		"start:client": "gulp watch",
+		"start:server": "gulp server",
+		"dist": "gulp --prod",
+		"start": "run-p start:client start:server"
+	},
+	"dependencies": {
+		"body-parser": "^1.18.3",
+		"config": "^1.30.0",
+		"express": "^4.16.2",
+		"sequelize": "^4.37.8",
+		"sqlite3": "^4.0.0",
+		"winston": "^3.0.0"
+	},
+	"devDependencies": {
+		"babel-core": "^6.26.3",
+		"babel-loader": "^7.1.2",
+		"babel-minify-webpack-plugin": "^0.3.1",
+		"babel-preset-env": "^1.7.0",
+		"connect-livereload": "^0.6.0",
+		"gulp": "^3.9.1",
+		"gulp-clean-css": "^3.9.4",
+		"gulp-concat": "^2.6.1",
+		"gulp-env": "^0.4.0",
+		"gulp-eslint": "^4.0.2",
+		"gulp-livereload": "^3.8.1",
+		"gulp-nodemon": "^2.2.1",
+		"gulp-notify": "^3.2.0",
+		"gulp-plumber": "^1.2.0",
+		"gulp-sourcemaps": "^2.6.4",
+		"gulp-stylus": "^2.7.0",
+		"minimist": "^1.2.0",
+		"npm-run-all": "^4.1.3",
+		"svelte": "^2.6.3",
+		"svelte-loader": "2.8.1",
+		"through2": "^2.0.3",
+		"webpack": "^4.8.3",
+		"webpack-stream": "^4.0.3"
+	}
+}

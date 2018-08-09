@@ -11,6 +11,12 @@ module.exports = class extends Generator {
 			},
 			{
 				type: 'confirm',
+				name: 'addFrontend',
+				message: 'Add html & css files?',
+				default: false,
+			},
+			{
+				type: 'confirm',
 				name: 'addBackend',
 				message: 'Add express.js backend?',
 				default: false,
@@ -29,10 +35,14 @@ module.exports = class extends Generator {
 			this.fs.copy(this.templatePath('config'), this.destinationPath('config'));
 			this.fs.copy(this.templatePath('server'), this.destinationPath('server'));
 			this.fs.copy(this.templatePath('app.js'), this.destinationPath('app.js'));
+			this.fs.copyTpl(this.templatePath('server/index.html'), this.destinationPath('server/index.html'), { title: this.props.name });
 		}
 		else {
 			this.fs.copy(this.templatePath('index-simple.js'), this.destinationPath('index.js'));
-			this.fs.copy(this.templatePath('index-simple.css'), this.destinationPath('index.css'));
+			if (this.props.addFrontend) {
+				this.fs.copy(this.templatePath('index-simple.css'), this.destinationPath('index.css'));
+				this.fs.copyTpl(this.templatePath('index-simple.html'), this.destinationPath('index.html'), { title: this.props.name });
+			}
 		}
 
 		this.fs.copy(this.templatePath('_editorconfig'), this.destinationPath('.editorconfig'));
@@ -42,11 +52,6 @@ module.exports = class extends Generator {
 		this.fs.copy(this.templatePath('LICENSE'), this.destinationPath('LICENSE'));
 
 		this.fs.copyTpl(this.templatePath('README.md'), this.destinationPath('README.md'), { title: this.props.name });
-
-		// index.html
-		const indexSrc = this.props.addBackend ? 'server/index.html' : 'index-simple.html';
-		const indexTar = this.props.addBackend ? 'server/index.html' : 'index.html';
-		this.fs.copyTpl(this.templatePath(indexSrc), this.destinationPath(indexTar), { title: this.props.name });
 
 		// package.json
 		const pkgName = `package-${this.props.addBackend ? 'complex' : 'simple'}.json`;

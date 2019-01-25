@@ -23,7 +23,7 @@
 		"no-trailing-spaces": 2,
 		"no-shadow": 2,
 		"eol-last": 1,
-		"no-console": 1,
+		"no-console": 0,
 		"comma-dangle": 0,
 		"no-cond-assign": 0
 	}

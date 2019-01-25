@@ -38,10 +38,13 @@ module.exports = class extends Generator {
 			this.fs.copyTpl(this.templatePath('server/index.html'), this.destinationPath('server/index.html'), { title: this.props.name });
 		}
 		else {
-			this.fs.copy(this.templatePath('index-simple.js'), this.destinationPath('index.js'));
+			this.fs.copyTpl(this.templatePath('index-simple.js'), this.destinationPath('index.js'), { name: this.props.name });
 			if (this.props.addFrontend) {
 				this.fs.copy(this.templatePath('index-simple.css'), this.destinationPath('index.css'));
 				this.fs.copyTpl(this.templatePath('index-simple.html'), this.destinationPath('index.html'), { title: this.props.name });
+			}
+			else {
+				this.fs.copyTpl(this.templatePath('install.sh'), this.destinationPath('install.sh'), { name: this.props.name });
 			}
 		}
 

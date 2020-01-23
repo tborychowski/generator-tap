@@ -4,67 +4,69 @@ module.exports = class extends Generator {
 	prompting () {
 		const prompts = [
 			{
-				type: 'input',
-				name: 'name',
-				message: 'Project name',
-				default: this.appname, // Default to current folder name
-			},
-			{
-				type: 'confirm',
-				name: 'addFrontend',
-				message: 'Add html & css files?',
-				default: false,
-			},
-			{
-				type: 'confirm',
-				name: 'addBackend',
-				message: 'Add express.js backend?',
-				default: false,
-			},
+				type: 'list',
+				name: 'type',
+				message: 'Select application type',
+				choices: [
+					{ name: 'CLI app', value: 'cli' },
+					{ name: 'UI demo app', value: 'ui' },
+					{ name: 'Full stack (svelte, stylus, express, sequelize, rollup)', value: 'fullstack' },
+				]
+			}
 		];
-
 		return this.prompt(prompts).then(props => this.props = props);
 	}
 
 	writing () {
-		if (this.props.addBackend) {
-			this.fs.copy(this.templatePath('gulpfile.js'), this.destinationPath('gulpfile.js'));
-			this.fs.copy(this.templatePath('README.md'), this.destinationPath('README.md'));
-			this.fs.copy(this.templatePath('webpack.config.js'), this.destinationPath('webpack.config.js'));
-			this.fs.copy(this.templatePath('client'), this.destinationPath('client'));
-			this.fs.copy(this.templatePath('config'), this.destinationPath('config'));
-			this.fs.copy(this.templatePath('server'), this.destinationPath('server'));
-			this.fs.copy(this.templatePath('app.js'), this.destinationPath('app.js'));
-			this.fs.copyTpl(this.templatePath('server/index.html'), this.destinationPath('server/index.html'), { title: this.props.name });
-		}
-		else {
-			this.fs.copyTpl(this.templatePath('index-simple.js'), this.destinationPath('index.js'), { name: this.props.name });
-			if (this.props.addFrontend) {
-				this.fs.copy(this.templatePath('index-simple.css'), this.destinationPath('index.css'));
-				this.fs.copyTpl(this.templatePath('index-simple.html'), this.destinationPath('index.html'), { title: this.props.name });
-			}
-			else {
-				this.fs.copyTpl(this.templatePath('install.sh'), this.destinationPath('install.sh'), { name: this.props.name });
-			}
+		const templates = [{ src: 'common/README.md', dest: 'README.md' }];
+		const assets = [
+			{ src: 'common/_editorconfig', dest: '.editorconfig' },
+			{ src: 'common/_eslintrc', dest: '.eslintrc' },
+			{ src: 'common/_gitignore', dest: '.gitignore' },
+			{ src: 'common/_npmrc', dest: '.npmrc' },
+			{ src: 'common/LICENSE', dest: 'LICENSE' },
+		];
+
+		if (this.props.type === 'cli') {
+			templates.push(
+				{ src: 'cli/index.js', dest: 'index.js' },
+				{ src: 'cli/install.sh', dest: 'install.sh' },
+				{ src: 'cli/package.json', dest: 'package.json' },
+			);
 		}
 
-		this.fs.copy(this.templatePath('_editorconfig'), this.destinationPath('.editorconfig'));
-		this.fs.copy(this.templatePath('_eslintrc'), this.destinationPath('.eslintrc'));
-		this.fs.copy(this.templatePath('_gitignore'), this.destinationPath('.gitignore'));
-		this.fs.copy(this.templatePath('_npmrc'), this.destinationPath('.npmrc'));
-		this.fs.copy(this.templatePath('LICENSE'), this.destinationPath('LICENSE'));
+		else if (this.props.type === 'ui') {
+			assets.push({ src: 'ui/index.css', dest: 'index.css'});
+			templates.push(
+				{ src: 'ui/index.html', dest: 'index.html' },
+				{ src: 'ui/package.json', dest: 'package.json' },
+			);
+		}
 
-		this.fs.copyTpl(this.templatePath('README.md'), this.destinationPath('README.md'), { title: this.props.name });
+		else if (this.props.type === 'fullstack') {
+			assets.push(
+				{ src: 'fullstack/client',      dest: 'client' },
+				{ src: 'fullstack/server',      dest: 'server' },
+				{ src: 'fullstack/assets',      dest: 'assets' },
+				{ src: 'fullstack/app.js',      dest: 'app.js' },
+				{ src: 'fullstack/_env',        dest: '.env' },
+				{ src: 'fullstack/gulpfile.js', dest: 'gulpfile.js' },
+			);
+			templates.push(
+				{ src: 'fullstack/assets/manifest.json', dest: 'assets/manifest.json' },
+				{ src: 'fullstack/server/index.html', dest: 'server/index.html' },
+				{ src: 'fullstack/package.json', dest: 'package.json' },
+			);
+		}
 
-		// package.json
-		const pkgName = `package-${this.props.addBackend ? 'complex' : 'simple'}.json`;
-		const pkg = this.fs.readJSON(this.templatePath(pkgName));
-		pkg.name = this.props.name.toLowerCase().replace(/\s/g, '-');
-		this.fs.writeJSON(this.destinationPath('package.json'), pkg);
+		assets.forEach(a => this.fs.copy(this.templatePath(a.src), this.destinationPath(a.dest)));
+
+		const params = {name: this.appname, safename: this.appname.toLowerCase().replace(/\s/g, '-') };
+		templates.forEach(t => this.fs.copyTpl(this.templatePath(t.src), this.destinationPath(t.dest), params));
 	}
 
 
 	install () {
-		if (this.props.addBackend) this.yarnInstall();
+		this.yarnInstall();
 	}
 };

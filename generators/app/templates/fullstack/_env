@@ -1,0 +1,6 @@
+SECRET=admin-secret
+LOGIN=admin
+PASSWORD=admin
+DB_NAME=database.db
+PORT=3000
+NODE_ENV=dev

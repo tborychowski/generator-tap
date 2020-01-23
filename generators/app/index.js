@@ -50,6 +50,7 @@ module.exports = class extends Generator {
 				{ src: 'fullstack/assets',      dest: 'assets' },
 				{ src: 'fullstack/app.js',      dest: 'app.js' },
 				{ src: 'fullstack/_env',        dest: '.env' },
+				{ src: 'fullstack/_eslintrc',   dest: '.eslintrc' },
 				{ src: 'fullstack/gulpfile.js', dest: 'gulpfile.js' },
 			);
 			templates.push(

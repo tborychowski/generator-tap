@@ -68,6 +68,6 @@ module.exports = class extends Generator {
 
 
 	install () {
-		this.yarnInstall();
+		this.npmInstall();
 	}
 };

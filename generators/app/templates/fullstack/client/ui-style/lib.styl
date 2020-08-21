@@ -5,9 +5,11 @@ main-font = system,-apple-system,".SFNSDisplay-Regular","Helvetica Neue",Helveti
 img-base = "../assets"
 
 // DARK THEME
-dark-color-bg1 = #000
-dark-color-bg2 = #333
-dark-color-bg3 = #444
+dark-color-bg0 = #000
+dark-color-bg1 = #111
+dark-color-bg2 = #222
+dark-color-bg3 = #333
+dark-color-bg4 = #444
 
 dark-color-text0 = #888
 dark-color-text1 = #ccc
@@ -45,8 +47,16 @@ margin-top(a) { margin-top: px(a) }
 margin-bottom(a) { margin-bottom: px(a) }
 
 size(w, h=w) { width: px(w); height: px(h); }
+min-size(w, h=w) { min-width: px(w); min-height: px(h); }
+max-size(w, h=w) { max-width: px(w); max-height: px(h); }
+
 width(n = 0) { width: px(n) }
+min-width(n = 0) { min-width: px(n) }
+max-width(n = 0) { max-width: px(n) }
+
 height(n = 0) { height: px(n) }
+min-height(n = 0) { min-height: px(n) }
+max-height(n = 0) { max-height: px(n) }
 
 top(n = 0) { top: px(n) }
 right(n = 0) { right: px(n) }
